@@ -8,7 +8,7 @@
           class="form-control"
           id="title"
           required
-          v-model="tutorial.title"
+          v-model="Recipe.title"
           name="title"
         />
       </div>
@@ -19,29 +19,29 @@
           class="form-control"
           id="description"
           required
-          v-model="tutorial.description"
+          v-model="Recipe.description"
           name="description"
         />
       </div>
 
-      <button @click="saveTutorial" class="btn btn-success">Submit</button>
+      <button @click="saveRecipe" class="btn btn-success">Submit</button>
     </div>
 
     <div v-else>
       <h4>You submitted successfully!</h4>
-      <button class="btn btn-success" @click="newTutorial">Add</button>
+      <button class="btn btn-success" @click="newRecipe">Add</button>
     </div>
   </div>
 </template>
 
 <script>
-import TutorialDataService from "../services/TutorialDataService";
+import RecipeDataService from "../services/RecipeDataService";
 
 export default {
-  name: "add-tutorial",
+  name: "add-Recipe",
   data() {
     return {
-      tutorial: {
+      Recipe: {
         title: "",
         description: "",
         published: false
@@ -50,14 +50,14 @@ export default {
     };
   },
   methods: {
-    saveTutorial() {
+    saveRecipe() {
       var data = {
-        title: this.tutorial.title,
-        description: this.tutorial.description,
+        title: this.Recipe.title,
+        description: this.Recipe.description,
         published: false
       };
 
-      TutorialDataService.create(data)
+      RecipeDataService.create(data)
         .then(() => {
           console.log("Created new item successfully!");
           this.submitted = true;
@@ -67,9 +67,9 @@ export default {
         });
     },
     
-    newTutorial() {
+    newRecipe() {
       this.submitted = false;
-      this.tutorial = {
+      this.Recipe = {
         title: "",
         description: "",
         published: false

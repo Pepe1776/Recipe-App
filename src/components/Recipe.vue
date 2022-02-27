@@ -1,6 +1,6 @@
 <template>
-  <div v-if="currentTutorial" class="edit-form">
-    <h4>Tutorial</h4>
+  <div v-if="currentRecipe" class="edit-form">
+    <h4>Recipe</h4>
     <form>
       <div class="form-group">
         <label for="title">Title</label>
@@ -8,7 +8,7 @@
           type="text"
           class="form-control"
           id="title"
-          v-model="currentTutorial.title"
+          v-model="currentRecipe.title"
         />
       </div>
 
@@ -18,19 +18,19 @@
           type="text"
           class="form-control"
           id="description"
-          v-model="currentTutorial.description"
+          v-model="currentRecipe.description"
         />
       </div>
 
       <div class="form-group">
         <label><strong>Status:</strong></label>
-        {{ currentTutorial.published ? "Published" : "Pending" }}
+        {{ currentRecipe.published ? "Published" : "Pending" }}
       </div>
     </form>
 
     <button
       class="badge badge-primary mr-2"
-      v-if="currentTutorial.published"
+      v-if="currentRecipe.published"
       @click="updatePublished(false)"
     >
       UnPublish
@@ -43,11 +43,11 @@
       Publish
     </button>
 
-    <button class="badge badge-danger mr-2" @click="deleteTutorial">
+    <button class="badge badge-danger mr-2" @click="deleteRecipe">
       Delete
     </button>
 
-    <button type="submit" class="badge badge-success" @click="updateTutorial">
+    <button type="submit" class="badge badge-success" @click="updateRecipe">
       Update
     </button>
     <p>{{ message }}</p>
@@ -55,35 +55,35 @@
 
   <div v-else>
     <br />
-    <p>Please click on a Tutorial...</p>
+    <p>Please click on a Recipe...</p>
   </div>
 </template>
 
 <script>
-import TutorialDataService from "../services/TutorialDataService";
+import RecipeDataService from "../services/RecipeDataService";
 
 export default {
-  name: "tutorial",
-  props: ["tutorial"],
+  name: "Recipe",
+  props: ["Recipe"],
   data() {
     return {
-      currentTutorial: null,
+      currentRecipe: null,
       message: "",
     };
   },
   watch: {
-    tutorial: function(tutorial) {
-      this.currentTutorial = { ...tutorial };
+    Recipe: function(Recipe) {
+      this.currentRecipe = { ...Recipe };
       this.message = "";
     },
   },
   methods: {
     updatePublished(status) {
-      TutorialDataService.update(this.currentTutorial.key, {
+      RecipeDataService.update(this.currentRecipe.key, {
         published: status,
       })
         .then(() => {
-          this.currentTutorial.published = status;
+          this.currentRecipe.published = status;
           this.message = "The status was updated successfully!";
         })
         .catch((e) => {
@@ -91,23 +91,23 @@ export default {
         });
     },
 
-    updateTutorial() {
+    updateRecipe() {
       const data = {
-        title: this.currentTutorial.title,
-        description: this.currentTutorial.description,
+        title: this.currentRecipe.title,
+        description: this.currentRecipe.description,
       };
 
-      TutorialDataService.update(this.currentTutorial.key, data)
+      RecipeDataService.update(this.currentRecipe.key, data)
         .then(() => {
-          this.message = "The tutorial was updated successfully!";
+          this.message = "The Recipe was updated successfully!";
         })
         .catch((e) => {
           console.log(e);
         });
     },
 
-    deleteTutorial() {
-      TutorialDataService.delete(this.currentTutorial.key)
+    deleteRecipe() {
+      RecipeDataService.delete(this.currentRecipe.key)
         .then(() => {
           this.$emit("refreshList");
         })
@@ -118,7 +118,7 @@ export default {
   },
   mounted() {
     this.message = "";
-    this.currentTutorial = { ...this.tutorial }
+    this.currentRecipe = { ...this.Recipe }
   },
 };
 </script>
