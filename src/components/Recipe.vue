@@ -21,11 +21,32 @@
           v-model="currentRecipe.description"
         />
       </div>
+      <div class="form-group">
+        <label for="ingredients">Ingredients</label>
+        <input
+          type="text"
+          class="form-control"
+          id="ingredients"
+          v-model="currentRecipe.ingredients"
+        />
+      </div>
+      <div class="form-group">
+        <label for="method">Method</label>
+        <input
+          type="text"
+          class="form-control"
+          id="method"
+          v-model="currentRecipe.method"
+        />
+      </div>
 
+      <img alt="image" :src="currentRecipe.image" />
+
+<!-- 
       <div class="form-group">
         <label><strong>Status:</strong></label>
         {{ currentRecipe.published ? "Published" : "Pending" }}
-      </div>
+      </div> -->
     </form>
 
     <button
@@ -35,13 +56,13 @@
     >
       UnPublish
     </button>
-    <button
+    <!-- <button
       v-else
       class="badge badge-primary mr-2"
       @click="updatePublished(true)"
     >
       Publish
-    </button>
+    </button> -->
 
     <button class="badge badge-danger mr-2" @click="deleteRecipe">
       Delete
@@ -67,6 +88,7 @@ export default {
   props: ["Recipe"],
   data() {
     return {
+      image_url: null,
       currentRecipe: null,
       message: "",
     };
@@ -76,8 +98,13 @@ export default {
       this.currentRecipe = { ...Recipe };
       this.message = "";
     },
+
   },
   methods: {
+imgd() {
+  this.image_url = this.currentRecipe.image
+},
+
     updatePublished(status) {
       RecipeDataService.update(this.currentRecipe.key, {
         published: status,
@@ -120,6 +147,9 @@ export default {
     this.message = "";
     this.currentRecipe = { ...this.Recipe }
   },
+  computed: {
+  
+  }
 };
 </script>
 

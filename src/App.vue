@@ -4,7 +4,7 @@
       <router-link to="/RecipeList" class="navbar-brand">Recipe List</router-link>
       <div class="navbar-nav mr-auto">
         <li class="nav-item">
-          <router-link to="/Recipe" class="nav-link">Recipe</router-link>
+          <!-- <router-link to="/RecipeCard" class="nav-link">Recipe</router-link> -->
         </li>
         <li class="nav-item">
           <router-link to="/AddRecipe" class="nav-link">Add</router-link>

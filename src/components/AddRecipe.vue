@@ -23,11 +23,53 @@
           name="description"
         />
       </div>
+      <!-- <div class="form-group">
+        <label for="ingredients">Ingredients</label>
+        <textarea name="ingredients"
+          class="form-control"
+          id="ingredients"
+          required
+          v-model="Recipe.ingredients"
+          rows="3"
+        />
+      </div>
+      <div class="form-group">
+        <label for="steps">Steps</label>
+        <textarea
+        type="text"
+          class="form-control"
+          id="steps"
+          required
+          v-model="Recipe.steps"
+          name="steps"
+          rows="3"
+        />
+      </div> -->
+       <div class="form-group">
+            <label>Ingredients</label>
+            <div class="ingredient" v-for="i in Recipe.ingredientRows" :key="i">
+              <input class="form-control" type="text" v-model="Recipe.ingredients[i - 1]" />
+            </div>
+            <button class="btn-info" type="button" @click="addNewIngredient">Add Ingredient</button>
+          </div>
+
+          <div class="form-group">
+            <label>Method</label>
+            <div class="method" v-for="i in Recipe.methodRows" :key="i">
+              <textarea class="form-control" v-model="Recipe.method[i - 1]"></textarea>
+            </div>
+            <button class="btn-info" type="button" @click="addNewStep">Add step</button>
+          </div>
+
+  <div class="form-group">
+    <label for="image">image url</label>
+    <input v-model="Recipe.image" type="text" class="form-control" id="image">
+  </div>
+
 
       <button @click="saveRecipe" class="btn btn-success">Submit</button>
     </div>
-
-    <div v-else>
+      <div v-else>
       <h4>You submitted successfully!</h4>
       <button class="btn btn-success" @click="newRecipe">Add</button>
     </div>
@@ -36,25 +78,58 @@
 
 <script>
 import RecipeDataService from "../services/RecipeDataService";
+import { ref } from 'vue';
 
 export default {
+  setup () {
+      const Recipe = ref({
+      title: '',
+      description: '',
+      ingredients: [],
+      method: [],
+      ingredientRows: 1,
+      methodRows: 1,
+      image: "",
+    });
+   const popupOpen = ref(false);
+   
+    const togglePopup = () => {
+      popupOpen.value = !popupOpen.value;
+    }
+      const addNewIngredient = () => {
+      Recipe.value.ingredientRows++;
+    }
+   const addNewStep = () => {
+      Recipe.value.methodRows++;
+    }
+    Recipe.value = {
+        title: '',
+        description: '',
+        ingredients: [],
+        method: [],
+        image: "",
+        ingredientRows: 1,
+        methodRows: 1
+      };
+      togglePopup();
+      return {
+      Recipe,
+      togglePopup,
+      popupOpen,
+      addNewStep,
+      addNewIngredient,
+    }
+    },
+    
   name: "add-Recipe",
-  data() {
-    return {
-      Recipe: {
-        title: "",
-        description: "",
-        published: false
-      },
-      submitted: false
-    };
-  },
   methods: {
     saveRecipe() {
       var data = {
         title: this.Recipe.title,
         description: this.Recipe.description,
-        published: false
+        ingredients: this.Recipe.ingredients,
+        method: this.Recipe.method,
+        image: this.Recipe.image,
       };
 
       RecipeDataService.create(data)
@@ -72,7 +147,9 @@ export default {
       this.Recipe = {
         title: "",
         description: "",
-        published: false
+        ingredients: "",
+        steps: "",
+        image: "",
       };
     }
   }

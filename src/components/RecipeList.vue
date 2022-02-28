@@ -39,7 +39,7 @@ import RecipeDetails from "./Recipe";
 
 export default {
   name: "Recipes-list",
-  components: { RecipeDetails },
+  components: { RecipeDetails},
   data() {
     return {
       Recipes: [],
@@ -58,7 +58,9 @@ export default {
           key: key,
           title: data.title,
           description: data.description,
-          published: data.published,
+          ingredients: data.ingredients,
+          method: data.method,
+          
         });
       });
 

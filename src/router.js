@@ -5,12 +5,17 @@ const routes =  [
     path: "/Recipe",
     alias: "/Recipe",
     name: "Recipe",
-    component: () => import("./components/RecipeList")
+    component: () => import("./components/Recipe")
   },
   {
     path: "/addRecipe",
     name: "addRecipe",
     component: () => import("./components/AddRecipe")
+  },
+  {
+    path: "/RecipeCard",
+    name: "RecipeCard",
+    component: () => import("./components/RecipeCard")
   },
   {
     path: "/RecipeList",
